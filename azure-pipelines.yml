@@ -20,3 +20,12 @@ steps:
 - task: TerraformInstaller@0
   inputs:
     terraformVersion: 'latest'
+- task: TerraformTaskV3@3
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    backendServiceArm: 'Pay-As-You-Go(3)(51bb037a-4a23-4c3b-afe4-56f5da47bb20)'
+    backendAzureRmResourceGroupName: 'temprgterra'
+    backendAzureRmStorageAccountName: 'tempstoragefor01'
+    backendAzureRmContainerName: 'statefile'
+    backendAzureRmKey: 'terraform.tfstate'
