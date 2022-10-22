@@ -29,3 +29,7 @@ steps:
     backendAzureRmStorageAccountName: 'tempstoragefor01'
     backendAzureRmContainerName: 'statefile'
     backendAzureRmKey: 'terraform.tfstate'
+    - task: TerraformTaskV3@3
+      inputs:
+        provider: 'azurerm'
+        command: 'validate'
