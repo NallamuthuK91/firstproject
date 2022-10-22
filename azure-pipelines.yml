@@ -33,3 +33,9 @@ steps:
   inputs:
     provider: 'azurerm'
     command: 'validate'
+- task: TerraformTaskV3@3
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    environmentServiceNameAzureRM: 'Pay-As-You-Go(1)(51bb037a-4a23-4c3b-afe4-56f5da47bb20)'
+  
