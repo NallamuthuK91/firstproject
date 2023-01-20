@@ -1,8 +1,3 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - main
 
@@ -10,32 +5,22 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
-- task: TerraformInstaller@0
+- task: AzureKeyVault@2
   inputs:
-    terraformVersion: 'latest'
-- task: TerraformTaskV3@3
+    azureSubscription: 'Pay-As-You-Go(51bb037a-4a23-4c3b-afe4-56f5da47bb20)'
+    KeyVaultName: 'DemoKVDevops'
+    SecretsFilter: '*'
+    RunAsPreJob: true
+- task: CmdLine@2
   inputs:
-    provider: 'azurerm'
-    command: 'init'
-    backendServiceArm: 'Pay-As-You-Go(3)(51bb037a-4a23-4c3b-afe4-56f5da47bb20)'
-    backendAzureRmResourceGroupName: 'temprgterra'
-    backendAzureRmStorageAccountName: 'tempstoragefor01'
-    backendAzureRmContainerName: 'statefile'
-    backendAzureRmKey: 'terraform.tfstate'
-- task: TerraformTaskV3@3
+    script: 'echo $(Password) > secret.txt'
+- task: CopyFiles@2
   inputs:
-    provider: 'azurerm'
-    command: 'validate'
-- task: TerraformTaskV3@3
+    SourceFolder: '$(agent.builddirectory)'
+    Contents: 'secret.txt'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+- task: PublishBuildArtifacts@1
   inputs:
-    provider: 'azurerm'
-    command: 'apply'
-    environmentServiceNameAzureRM: 'Pay-As-You-Go(1)(51bb037a-4a23-4c3b-afe4-56f5da47bb20)'
-  
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
