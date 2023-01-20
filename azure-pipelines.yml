@@ -13,7 +13,7 @@ steps:
     RunAsPreJob: true
 - task: CmdLine@2
   inputs:
-    script: 'echo $(Password) > secret.txt'
+    script: 'echo $Password > secret.txt'
 - task: CopyFiles@2
   inputs:
     SourceFolder: '$(agent.builddirectory)'
