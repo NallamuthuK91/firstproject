@@ -16,7 +16,13 @@ provider "azurerm" {
   client_secret     = "1IE8Q~LDnjIFKVUFrTvQBBxqkgbQVOh7loirscS8"
 }
 
-
+ backend "azurerm" {
+    resource_group_name  = "New_Demo"
+    storage_account_name = "demostorageacct0123"
+    container_name       = "democontainer"
+    key                  = "tf/terraform.tfstate"
+  }
+}
 resource "azurerm_resource_group" "rg" {
   name     = "myTFResourceGroup"
   location = "westus2"
@@ -26,3 +32,4 @@ resource "azurerm_resource_group" "rg" {
     Team = "DevOps"
   }
 }
+
